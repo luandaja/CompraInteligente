@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,21 +32,33 @@ namespace CompraInteligente.Models
     class Simulacion
     {
         #region declaracion_De_Variables
+        [Required]
         public int plazo { get; set; }
+        [Required]
         public Moneda tipoMoneda { get; set; } 
+        [Required]
         public DateTime fechaDesenbolso { get; set; }
+        [Required]
         public int diaDePago { get; set; }
+        [Required]
         public Credito tipoDeCredito { get; set; }
         public float tea { get; set; }
+        [Required]
         public bool informacionPeriodica { get; set; } //1=si, 0 = no
+        [Required]
         public SeguroDesgravamen tipoDeSeguroDesgravamen { get; set; }
         public float portes { get; set; }
+        [Required]
         public int cuotasPorAnho { get; set; }
+        [Required]
         public double valorDelBien { get; set; }
+        [Required]
         public Geografia geografia { get; set; }
+        [Required]
         public SeguroVehicular tipoSeguroVehicular { get; set; }
         public float tasaSeguroVehicular { get; set; }
         public float tipoDeCambio { get; set; }
+        [Required]
         public double coutaInicial_num { get; set; }
         public float coutaInicial_por { get; set; }
         public double montoDelPrestamo_num { get; set; }
