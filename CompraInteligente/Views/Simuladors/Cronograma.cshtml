@@ -1,0 +1,82 @@
+﻿@model CompraInteligente.Models.Simulador
+
+@{ 
+    int n = 0;
+}
+<table class="table">
+    <tr>
+        <th>
+           #
+        </th>
+        <th>
+            Fecha
+        </th>
+        <th>
+            Saldo
+        </th>
+        <th>
+            Interés
+        </th>
+        <th>
+            Seguro Desgr
+        </th>
+        <th>
+            Seguro Bien
+        </th>
+        <th>
+            Amortización
+        </th>
+        <th>
+            Envío de Información Periódica 
+        </th>
+        <th>
+            Cuota
+        </th>
+        <th></th>
+    </tr>
+    @{ 
+        DateTime fecha = Model.fechaDesenbolso;
+    }
+    @for (int i = 0; i < Model.plazo+2; i++)
+    {
+        <tr>
+            <td>
+                @i
+            </td>
+            <td>
+                
+            </td>
+            <td>
+                @fecha.AddMonths(i)
+                
+            </td>
+            <td>
+                saldo
+            </td>
+            <td>
+                interes
+            </td>
+            <td>
+                seguro desgravamen
+            </td>
+            <td>
+                seguro del bien
+            </td>
+            <td>
+                amortizacion
+            </td>
+            <td>
+                envio de inf
+            </td>
+            <td>
+                cuota
+            </td>
+            
+            <td>
+                @Html.ActionLink("Volver", "Index")
+            </td>
+        </tr>
+    }
+
+</table>
+

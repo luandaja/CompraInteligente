@@ -7,36 +7,38 @@ using System.Threading.Tasks;
 
 namespace CompraInteligente.Models
 {
-    #region Colecciones 
-    public enum Moneda
-    {
-        Dolares, Soles
-    }
-    public enum SeguroDesgravamen
-    {
-        Endosado, Individual
-    }
-    public enum Geografia
-    {
-        Lima, Provincia
-    }
-    public enum SeguroVehicular
-    {
-        Endosado //disponible para agregar más
-    }
-    public enum Credito
-    {
-        Ligero , Comercial //disponible para agregar más
-    }
-    #endregion
     class Simulacion
     {
+        #region Colecciones 
+        public enum Moneda
+        {
+            Dolares, Soles
+        }
+        public enum SeguroDesgravamen
+        {
+            Endosado, Individual
+        }
+        public enum Geografia
+        {
+            Lima, Provincia
+        }
+        public enum SeguroVehicular
+        {
+            Endosado //disponible para agregar más
+        }
+        public enum Credito
+        {
+            Ligero, Comercial //disponible para agregar más
+        }
+        #endregion
+
         private int DiasAnho = 365;
+        public int id { get; set; }
         #region declaracion_De_Variables_Explicitas
         [Required]
         public int plazo { get; set; } //valores 24 o 36
         [Required]
-        public Moneda tipoMoneda { get; set; } 
+        public Moneda tipoMoneda { get; set; }
         [Required]
         public DateTime fechaDesenbolso { get; set; }
         [Required]
@@ -74,6 +76,7 @@ namespace CompraInteligente.Models
         public float tasaAnualSeguroDesgravamen { get; private set; }
 
         #endregion
+
         #region Metodos_Básicos
         public Simulacion()
         {

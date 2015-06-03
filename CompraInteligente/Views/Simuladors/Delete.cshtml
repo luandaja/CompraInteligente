@@ -1,0 +1,201 @@
+﻿@model CompraInteligente.Models.Simulador
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Simulador</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.plazo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.plazo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoMoneda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoMoneda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaDesenbolso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaDesenbolso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.diaDePago)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.diaDePago)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoDeCredito)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoDeCredito)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.informacionPeriodica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.informacionPeriodica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoDeSeguroDesgravamen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoDeSeguroDesgravamen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tasaMensualSeguroDesgravamen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tasaMensualSeguroDesgravamen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.portes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.portes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cuotasPorAnho)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cuotasPorAnho)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valorDelBien)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valorDelBien)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.geografia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.geografia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoSeguroVehicular)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoSeguroVehicular)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tasaSeguroVehicular)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tasaSeguroVehicular)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoDeCambio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoDeCambio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cuotaInicial_num)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cuotaInicial_num)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.montoDelPrestamo_num)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.montoDelPrestamo_num)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ultimaCuota_num)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ultimaCuota_num)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tcea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tcea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tna)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tna)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tasaAnualSeguroDesgravamen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tasaAnualSeguroDesgravamen)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
