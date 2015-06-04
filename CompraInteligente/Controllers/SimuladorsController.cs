@@ -200,5 +200,31 @@ namespace CompraInteligente.Controllers
 
             s.tasaAnualSeguroDesgravamen = s.tasaMensualSeguroDesgravamen * 12;
         }
+        public float calcularTasaAjustadaSeguroDesgravamen(Simulador s,int DiasMes)
+        {
+            return (float)Math.Round(s.tasaAnualSeguroDesgravamen * DiasMes / DiasAnho,5);
+        }
+
+        public float calcularTasaAjustadaSeguroVehicular(Simulador s,int DiasMes)
+        {
+            return s.tasaSeguroVehicular * DiasMes / DiasAnho;
+        }
+        public float calcularTasaAjustadaAlPlazo(Simulador s,int DiasMes)
+        {
+            return s.tna * DiasMes / DiasAnho;
+        }
+        public double calcularInteres(Simulador s,double Monto, int DiasMes )
+        {
+            return Monto * calcularTasaAjustadaAlPlazo(s,DiasMes);
+        }
+        public double calcularCuotaMensual(Simulador s,double Monto, int DiaMes)
+        {
+            float tasa = calcularTasaAjustadaAlPlazo(s, DiaMes);
+            return Monto * (tasa / (1 - Math.Pow(1 + tasa, -s.plazo)));
+        }
+        public double calcularAmortizacion(double cuotaMensual, double interes)
+        {
+            return cuotaMensual - interes;
+        }
     }
 }
