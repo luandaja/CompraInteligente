@@ -33,9 +33,9 @@ namespace CompraInteligente.Models
 
     public class Simulador
     {
-        
+
         private int DiasAnho = 365;
-        public int SimuladorID{ get; set; }
+        public int SimuladorID { get; set; }
         #region declaracion_De_Variables_Explicitas
         [Required]
         public int plazo { get; set; } //valores 24 o 36
@@ -74,6 +74,10 @@ namespace CompraInteligente.Models
         #region Declaración_de_variables_implicias
         public float tna { get; set; }
         public float tasaAnualSeguroDesgravamen { get; set; }
+        public float por_CI { get; set; }
+        public float por_CM  {get;set;}
+        public float por_CF {get;set;}
+        public double CM { get; set; }
         #endregion
 
     }

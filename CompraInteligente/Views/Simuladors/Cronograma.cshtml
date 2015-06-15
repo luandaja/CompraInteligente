@@ -35,78 +35,99 @@
         </th>
         <th></th>
     </tr>
-    @{ 
+
+    @{
+        var aux = ((SimuladorsController)this.ViewContext.Controller);
+
+        //double cuotaaux =0;
+
         DateTime fecha = Model.fechaDesenbolso;
+        //fecha.
         double monto = Model.montoDelPrestamo_num;
-        double cuotaTotal = 0;
-        double cuotaMensual = 0;
         double interes = 0;
+        double seguroDesg = 0;
+        double seguroBien = 0;
         double amortizacion = 0;
-        double segurodesg = 0;
-        double segurodelBien= 0;
+        double informacionPeriodica = 0;
+        double cuota = 0;
+        double suma = 0;
+        int diasMes = 0;
+
+        //double final= Model.CM;
+        //double cuota2aux = 0;
+        //int auxcont = 0;
+        //do
+        //{
+        //    auxcont++;
+        //    cuota2aux += cuota2aux;
+        //    for (int i = 0; i < Model.plazo; i++)
+        //    {
+        //        diasMes = DateTime.DaysInMonth(fecha.Year, fecha.Month);
+        //        cuota2aux = Math.Round(aux.calcularCuota2(Model, diasMes, final), 2);
+        //        cuotaaux += cuota2aux;
+        //        fecha = fecha.AddMonths(1);
+
+        //    }
+        //    final -= cuota2aux;
+        //} while (Math.Round(final, 2) > 0.004f);
+        fecha = Model.fechaDesenbolso;
+        cuota = aux.calcularValorFuturo(Model);
+        cuota = Math.Round(cuota / Model.plazo,2);
+        double sumamor = 0;
+        double sumseg = 0;
     }
+
     @for (int i = 0; i < Model.plazo + 2; i++)
     {
-
         <tr>
-            @{
-                if (i!=0)
+                <td>
+                    @i
+                </td>
+                <td>@fecha</td>
+                <td>@monto</td>
+                <td>@interes</td>
+                <td>@seguroDesg</td>
+                <td>@seguroBien</td>
+                <td>@amortizacion</td>
+                <td>@informacionPeriodica</td>
+                <td>@cuota</td>
+                <td>
+                    @suma
+                    @Html.ActionLink("Volver", "Index")
+                    @sumamor
+                    @sumseg
+                </td>
+            @{ 
+                if (i == 0)
                 {
-                    //calcular montos no tasas!!!
-                    cuotaMensual = ((SimuladorsController)this.ViewContext.Controller).calcularCuotaMensual(Model, monto, DateTime.DaysInMonth(fecha.Year, fecha.Month));
-                    interes = ((SimuladorsController)this.ViewContext.Controller).calcularInteres(Model, monto, DateTime.DaysInMonth(fecha.Year, fecha.Month));
-                    amortizacion = ((SimuladorsController)this.ViewContext.Controller).calcularAmortizacion(cuotaMensual, interes);
-                    segurodesg = ((SimuladorsController)this.ViewContext.Controller).calcularTasaAjustadaSeguroDesgravamen(Model, DateTime.DaysInMonth(fecha.Year, fecha.Month));
-                    segurodesg = monto * segurodesg;
-                    segurodelBien = ((SimuladorsController)this.ViewContext.Controller).calcularTasaAjustadaSeguroVehicular(Model, DateTime.DaysInMonth(fecha.Year, fecha.Month));
-                    cuotaTotal = interes + segurodesg + tasaseguroV + amortizacion + Model.portes;
-
+                    informacionPeriodica = Model.portes;
+                    cuota = cuota + informacionPeriodica;
                 }
-                else
-                {
-                    cuotaTotal = 0;
-                }
+                diasMes = DateTime.DaysInMonth(fecha.Year, fecha.Month);
                 fecha = fecha.AddMonths(1);
-            }
-            <td>
-                @i
-            </td>
-            <td>
-                @fecha
-                
-            </td>
-            <td>
-                @monto
-                @{ 
-                    monto -= amortizacion;
-                }
-            </td>
-            <td>
-                @interes
-            </td>
-            <td>
-               @segurodesg
+                interes = Math.Round(aux.calcularInteres(Model, diasMes, monto), 2);
+                //amortizacion = Math.Round(aux.calcularAmortizacion(Model, diasMes, cuota), 2);
 
-            </td>
-            <td>
-                @tasaseguroV
-            </td>
-            <td>
-                @amortizacion
-            </td>
-            <td>
-                @Model.portes
-            </td>
-            <td>
-                @cuotaTotal
-            </td>
-            
-            <td>
-                @Html.ActionLink("Volver", "Index")
-            </td>
+                //interes = cuota - amortizacion;
+                seguroDesg = Math.Round(aux.calcularSeguroDesg(Model, diasMes, monto), 2);
+                seguroBien = Math.Round(aux.calcularSeguroVehicular(Model, diasMes), 2);
+                if (i == Model.plazo)
+                {
+                    cuota = Model.ultimaCuota_num;
+                }
+                {
+                    //cuota = Math.Round(aux.calcularCuota(Model, diasMes), 2);
+                    amortizacion = cuota - interes;
+                    monto -= Math.Round(amortizacion, 2);
+                    suma = Math.Round(cuota + seguroBien + seguroDesg, 2);
+                    //suma = Math.Round(amortizacion + interes + seguroBien + seguroDesg, 2);
+                }
+                sumamor += amortizacion;
+                sumseg += seguroDesg;
+
+            }
         </tr>
-        
-    }
+                }
 
 </table>
 

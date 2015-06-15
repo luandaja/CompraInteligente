@@ -13,6 +13,7 @@ namespace CompraInteligente.Controllers
 {
     public class SimuladorsController : Controller
     {
+
         private const int DiasAnho = 365;
         private SimuladorContext db = new SimuladorContext();
 
@@ -147,6 +148,7 @@ namespace CompraInteligente.Controllers
 
         public void calcularValoresImplicitos(Simulador s)
         {
+            s.por_CF = 0.50f;
             if (s.tipoMoneda == Moneda.Soles)
             {
                 if (s.informacionPeriodica)
@@ -194,37 +196,70 @@ namespace CompraInteligente.Controllers
                 s.tasaSeguroVehicular = 0;
             }
             //listo para agregar más
+
             s.montoDelPrestamo_num = s.valorDelBien - s.cuotaInicial_num;
-            s.ultimaCuota_num = s.valorDelBien * 0.35f;//según el BCP la última cuota recomendada es 35%
+            s.ultimaCuota_num = s.valorDelBien * s.por_CF;//según el BCP la última cuota recomendada es 35%
             s.tna = (float)(Math.Pow(1 + s.tea, 1.0f / 12) - 1) * 12 * DiasAnho / 360;
 
             s.tasaAnualSeguroDesgravamen = s.tasaMensualSeguroDesgravamen * 12;
-        }
-        public float calcularTasaAjustadaSeguroDesgravamen(Simulador s,int DiasMes)
-        {
-            return (float)Math.Round(s.tasaAnualSeguroDesgravamen * DiasMes / DiasAnho,5);
+
+            s.por_CI = (float)(s.cuotaInicial_num / s.valorDelBien);
+            s.por_CM = 1 - s.por_CI - s.por_CF;
+            s.CM = Math.Round(s.por_CM * s.valorDelBien,2);
+
         }
 
-        public float calcularTasaAjustadaSeguroVehicular(Simulador s,int DiasMes)
+        public double calcularInteres(Simulador s, int DiasMes, double monto)
         {
-            return s.tasaSeguroVehicular * DiasMes / DiasAnho;
+            float tasa = s.tna * DiasMes / DiasAnho;
+            return monto * tasa;
+
         }
-        public float calcularTasaAjustadaAlPlazo(Simulador s,int DiasMes)
+        public double calcularSeguroDesg(Simulador s, int DiasMes, double monto)
         {
-            return s.tna * DiasMes / DiasAnho;
+            float tasa = s.tasaAnualSeguroDesgravamen * DiasMes / DiasAnho;
+            return monto * tasa;
         }
-        public double calcularInteres(Simulador s,double Monto, int DiasMes )
+        public double calcularSeguroVehicular(Simulador s, int DiasMes)
         {
-            return Monto * calcularTasaAjustadaAlPlazo(s,DiasMes);
+            float tasa = s.tasaSeguroVehicular * DiasMes / DiasAnho;
+            return s.valorDelBien * tasa;
+
         }
-        public double calcularCuotaMensual(Simulador s,double Monto, int DiaMes)
+        public double calcularCuota(Simulador s, int DiasMes)
         {
-            float tasa = calcularTasaAjustadaAlPlazo(s, DiaMes);
-            return Monto * (tasa / (1 - Math.Pow(1 + tasa, -s.plazo)));
+            float tasa = (float)calcularInteres(s, DiasMes, 1);
+            //double interes = calcularInteres(s, DiasMes, s.CM);
+            double cuota = s.CM * (tasa / (1 - Math.Pow(1 + tasa, -36)));
+            return cuota;
         }
-        public double calcularAmortizacion(double cuotaMensual, double interes)
+        public double calcularCuota2(Simulador s, int DiasMes, double CM)
         {
-            return cuotaMensual - interes;
+            float tasa = (float)calcularInteres(s, DiasMes, 1);
+            //double interes = calcularInteres(s, DiasMes, CM);
+            double cuota = CM * (tasa / (1 - Math.Pow(1 + tasa, -36)));
+            return cuota;
+        }
+        public double calcularAmortizacion(Simulador s, int DiasMes, double cuota)
+        {
+
+            double interes = calcularInteres(s, DiasMes, s.CM);
+            return cuota - interes;
+        }
+        public double calcularValorPresenteSegunValorFuturo(Simulador s, double valorFuturo)
+        {
+            /*Convierte un valor futuro a un valor presente*/
+            double plazoEnDias = s.plazo * 30;
+            double valorPresente = Math.Round(Math.Pow(1 + s.tea, -(plazoEnDias / DiasAnho)) * valorFuturo);
+            return valorPresente;
+        }
+        public double calcularValorFuturo(Simulador s)
+        {
+            /*Convierte un valor futuro a un valor presente*/
+            double plazoEnDias = s.plazo * 30;
+            double valorFuturo = Math.Round(Math.Pow(1 + s.tea, (plazoEnDias / DiasAnho))*s.CM);
+            return valorFuturo;
         }
     }
+
 }
